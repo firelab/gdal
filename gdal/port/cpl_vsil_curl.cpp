@@ -521,14 +521,16 @@ static int VSICurlHandleWriteFunc(void *buffer, size_t count, size_t nmemb, void
 
             if (pszLine[0] == '\r' || pszLine[0] == '\n')
             {
-                if (psStruct->bDownloadHeaderOnly)
-                {
+                /*----------------------- NWS FIX -----------------------*/                
+	 	        
+                /*if (psStruct->bDownloadHeaderOnly)
+                {*/
                     /* If moved permanently/temporarily, go on. Otherwise stop now*/
-                    if (!(psStruct->nHTTPCode == 301 || psStruct->nHTTPCode == 302))
+                    /*if (!(psStruct->nHTTPCode == 301 || psStruct->nHTTPCode == 302))
                         return 0;
                 }
                 else
-                {
+                {*/
                     psStruct->bIsInHeader = FALSE;
 
                     /* Detect servers that don't support range downloading */
@@ -543,10 +545,10 @@ static int VSICurlHandleWriteFunc(void *buffer, size_t count, size_t nmemb, void
                         psStruct->bError = TRUE;
                         return 0;
                     }
-                }
+                //}
             }
         }
-        else
+        /*else
         {
             if (psStruct->pfnReadCbk)
             {
@@ -557,7 +559,9 @@ static int VSICurlHandleWriteFunc(void *buffer, size_t count, size_t nmemb, void
                     return 0;
                 }
             }
-        }
+        }*/
+
+        /*----------------------- END NWS FIX -----------------------*/
         psStruct->nSize += nSize;
         return nmemb;
     }
